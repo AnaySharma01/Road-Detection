@@ -10,18 +10,13 @@ def processImage(image):
     gray_scale = cv.GaussianBlur(gray, (15, 15), 0)
     median_blur = cv.medianBlur(gray_scale, 5)
     canny_image = cv.Canny(median_blur, 75, 20)
-    # https://www.geeksforgeeks.org/python-opencv-cv2-puttext-method/
-    image = cv.putText(image, '↑', (50, 50), cv.FONT_HERSHEY_SIMPLEX,
-                       1, (0, 0, 255), 2, cv.LINE_AA)
-    # Displaying the image
-    cv.imshow('Image', image)
     # Creates a mask around desired area
     # https://pyimagesearch.com/2021/01/19/image-masking-with-opencv/ Lines 20-26
     roi = np.zeros(image.shape[:2], dtype="uint8")
-    cv.rectangle(roi, (700, 900), (1400, 1500), 1, -1)
+    cv.rectangle(roi, (1300, 1800), (2100, 2100), 1, -1)
     mask = cv.bitwise_and(canny_image, canny_image, mask=roi)
     # Displays the mask
-    cv.rectangle(image, (700, 900), (1400, 1500), (255, 0, 0), 5)
+    # cv.rectangle(image, (1300, 1800), (2100, 2100), (255, 0, 0), 5)
 
     # Detects the contours
     # https://www.tutorialspoint.com/opencv_python/opencv_python_image_contours.htm Line 10
@@ -51,19 +46,19 @@ def processImage(image):
         # Sets the points of the arrows
         point1 = (700, 900)
         point2 = (1400, 1500)
-        point3 = (1400, 1500)
+        point3 = (500, 1500)
         # Draws the triangle with the points
         cv.line(image, point1, point2, (255, 0, 0), 3)
         cv.line(image, point2, point3, (255, 0, 0), 3)
         cv.line(image, point1, point3, (255, 0, 0), 3)
 
         # https://www.geeksforgeeks.org/python-opencv-cv2-arrowedline-method/?ref=lbp
-        #Creates the start and end point
+        # Creates the start and end point
         start_point = (900, 1000)
         end_point = (900, 200)
         # Red color in BGR
         color = (255, 0, 0)
-        #Sets the thickness of the arrow
+        # Sets the thickness of the arrow
         thickness = 5
         # Draws the arrow
         cv.arrowedLine(image, start_point, end_point,
