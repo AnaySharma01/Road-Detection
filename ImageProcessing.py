@@ -10,10 +10,19 @@ def processImage(image):
     gray_scale = cv.GaussianBlur(gray, (15, 15), 0)
     median_blur = cv.medianBlur(gray_scale, 5)
     canny_image = cv.Canny(median_blur, 100, 20)
+    # https://www.geeksforgeeks.org/python-opencv-cv2-polylines-method/ #Lines 19-38
+    # Creates coordinates of mask
+    points = np.array([[1000, 2100], [2200, 2100], [1700, 1500], [1700, 1500]],
+                      np.int32)
+    points = points.reshape((-1, 1, 2))
+    # Displays the mask
+    cv.polylines(image, [points],
+                 True, (0, 255, 0), 5)
     # Creates a mask around desired area
     # https://pyimagesearch.com/2021/01/19/image-masking-with-opencv/ Lines 20-26
     roi = np.zeros(image.shape[:2], dtype="uint8")
-    cv.rectangle(roi, (1200, 1800), (2100, 2100), 1, -1)
+    cv.polylines(roi, [points],
+                 True, (0, 255, 0), 5)
     mask = cv.bitwise_and(canny_image, canny_image, mask=roi)
     # Displays the mask
     cv.rectangle(image, (1200, 1800), (2100, 2100), (255, 0, 0), 5)
