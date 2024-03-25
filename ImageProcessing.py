@@ -3,7 +3,7 @@ import cv2 as cv
 import numpy as np
 
 
-def processImage(image):
+def processImage(frame):
     # Applies gaussian blur, median blur, and canny edge detection on the image
     # https://github.com/adityagandhamal/road-lane-detection/blob/master/detection_on_vid.py Lines 35-38
     gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
