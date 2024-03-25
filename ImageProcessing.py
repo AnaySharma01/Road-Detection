@@ -1,6 +1,8 @@
 # Imports necessary packages
 import cv2 as cv
 import numpy as np
+
+
 def processImage(image):
     # Applies gaussian blur, median blur, and canny edge detection on the image
     # https://github.com/adityagandhamal/road-lane-detection/blob/master/detection_on_vid.py Lines 35-38
@@ -10,23 +12,18 @@ def processImage(image):
     canny_image = cv.Canny(median_blur, 100, 20)
     # https://www.geeksforgeeks.org/python-opencv-cv2-polylines-method/ #Lines 19-38
     # Creates coordinates of mask
-    points = np.array([[1000, 2100], [2200, 2100], [1700, 1500], [1700, 1500]],
     points = np.array([[800, 2100], [2300, 2100], [1800, 1500], [1600, 1500]],
                       np.int32)
     points = points.reshape((-1, 1, 2))
-    # Displays the mask
     cv.polylines(image, [points],
                  True, (0, 255, 0), 5)
     # Creates a mask around desired area
     # https://pyimagesearch.com/2021/01/19/image-masking-with-opencv/ Lines 20-26
     roi = np.zeros(image.shape[:2], dtype="uint8")
-    cv.polylines(roi, [points],
-                 True, (0, 255, 0), 5)
     cv.rectangle(roi, (1200, 1800), (2100, 2100), 1, -1)
     mask = cv.bitwise_and(canny_image, canny_image, mask=roi)
 
     # Displays the mask
-    cv.rectangle(image, (1200, 1800), (2100, 2100), (255, 0, 0), 5)
     # cv.rectangle(image, (1200, 1800), (2100, 2100), (255, 0, 0), 5)
 
     # Creates hough lines around image
@@ -35,9 +32,7 @@ def processImage(image):
     lines = cv.HoughLinesP(mask, 1, np.pi / 180, threshold=10, minLineLength=10, maxLineGap=15)
 
     # Displays hough lines
-
     # https://github.com/adityagandhamal/road-lane-detection/blob/master/detection_on_vid.py Line 14-19
-
     # Prevents program from crashing if no lines detected
     if lines is not None:
         # Variables needed to find the centerline
