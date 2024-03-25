@@ -10,21 +10,13 @@ def processImage(frame):
     gray_scale = cv.GaussianBlur(gray, (15, 15), 0)
     median_blur = cv.medianBlur(gray_scale, 5)
     canny_image = cv.Canny(median_blur, 100, 20)
-    # https://www.geeksforgeeks.org/python-opencv-cv2-polylines-method/ #Lines 19-38
-    # Creates coordinates of mask
-    points = np.array([[800, 2100], [2300, 2100], [1800, 1500], [1600, 1500]],
-                      np.int32)
-    points = points.reshape((-1, 1, 2))
-    cv.polylines(frame, [points],
-                 True, (0, 255, 0), 5)
-    # Creates a mask around desired area
     # https://pyimagesearch.com/2021/01/19/image-masking-with-opencv/ Lines 20-26
     roi = np.zeros(frame.shape[:2], dtype="uint8")
     cv.rectangle(roi, (1200, 1800), (2100, 2100), 1, -1)
     mask = cv.bitwise_and(canny_image, canny_image, mask=roi)
 
     # Displays the mask
-    # cv.rectangle(image, (1200, 1800), (2100, 2100), (255, 0, 0), 5)
+    cv.rectangle(frame, (1200, 1800), (2100, 2100), (255, 0, 0), 5)
 
     # Creates hough lines around image
     # Creates the hough lines used for the line detection
