@@ -17,7 +17,7 @@ def processImage(frame):
     mask = cv.bitwise_and(canny_image, canny_image, mask=roi)
 
     # Displays the mask
-    # cv.rectangle(image, (1200, 1800), (2100, 2100), (255, 0, 0), 5)
+    # cv.rectangle(frame, (1200, 1800), (2100, 2100), (255, 0, 0), 5)
 
     # Creates hough lines around image
     # Creates the hough lines used for the line detection
